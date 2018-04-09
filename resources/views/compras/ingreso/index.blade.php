@@ -31,7 +31,6 @@
 						<td>{{$ing->estado}}
 						</td>
 						<td>
-						<!--{{URL::action('IngresoController@show', $ing->idingreso)}}-->
 						<a href="{{URL::action('IngresoController@show', $ing->idingreso)}}"><button class="btn btn-primary">Detalles</button></a>
 						<a href="" data-target="#modal-delete-{{$ing->idingreso}}" data-toggle="modal"><button class="btn btn-danger">Anular</button></a>
 						</td>

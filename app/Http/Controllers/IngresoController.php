@@ -5,11 +5,11 @@ namespace sisVentas\Http\Controllers;
 use Illuminate\Http\Request;
 
 use sisVentas\Http\Requests;
-use sisVentas\Ingreso;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use sisVentas\Http\Requests\IngresoFormRequest;
-
+use sisVentas\Ingreso;
+use sisVentas\DetalleIngreso;
 use DB;
 
 
@@ -32,9 +32,9 @@ class IngresoController extends Controller
     		$ingresos=DB::table('ingreso as i')
     		->join('persona as p', 'i.idproveedor', '=', 'p.idpersona')
     		->join('detalle_ingreso as di', 'i.idingreso', '=', 'di.idingreso')
-    		->select('i.idingreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'i.serie_comprobante', 'i.num_comprobante', 'i.ganancia', 'i.estado', DB::raw('sum(di.cantidad*precio_compra) as total'))
+    		->select('i.idingreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'i.serie_comprobante',     'i.num_comprobante', 'i.ganancia', 'i.estado', DB::raw('sum(di.cantidad*precio_compra) as total'))
     		->where('i.num_comprobante','LIKE','%'.$query.'%')
-    		->orderBy('idingreso', 'desc')
+    		->orderBy('i.idingreso', 'desc')
     		->groupBy('i.idingreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'i.serie_comprobante', 'i.num_comprobante', 'i.ganancia', 'i.estado')
     		->paginate(7);
     		return view('compras.ingreso.index', ["ingresos"=>$ingresos, "searchText"=>$query]);
@@ -59,11 +59,11 @@ class IngresoController extends Controller
     		$ingreso->idproveedor=$request->get('idproveedor');
     		$ingreso->tipo_comprobante=$request->get('tipo_comprobante');
     		$ingreso->serie_comprobante=$request->get('serie_comprobante');
-    		$ingreso->num_comprobante=$request('num_comprobante');
+    		$ingreso->num_comprobante=$request->get('num_comprobante');
     		
     		$mytime = Carbon::now('America/Guatemala');
     		$ingreso->fecha_hora=$mytime->toDateTimeString();
-    		$ingreso->ganancia='50%';
+    		$ingreso->ganancia='50';
     		$ingreso->estado='A';
     		$ingreso->save();
 
@@ -72,7 +72,7 @@ class IngresoController extends Controller
     		$precio_compra = $request->get('precio_compra');
     		$precio_venta = $request->get('precio_venta');
 
-    		$count = 0;
+    		$cont = 0;
     		while ($cont < count($idarticulo)) {
     			$detalle = new DetalleIngreso();
     			$detalle->idingreso=$ingreso->idingreso;
@@ -99,16 +99,18 @@ class IngresoController extends Controller
     {
     	$ingreso=DB::table('ingreso as i')
     		->join('persona as p', 'i.idproveedor', '=', 'p.idpersona')
-    		->join('detalle_ingreso as di', 'i.idingreso', '=', 'di.idpersona')
+    		->join('detalle_ingreso as di', 'i.idingreso', '=', 'di.idingreso')
     		->select('i.idingreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'i.serie_comprobante', 'i.num_comprobante', 'i.ganancia', 'i.estado', DB::raw('sum(di.cantidad*precio_compra) as total'))
+            ->orderBy('i.idingreso', 'desc')
+            ->groupBy('i.idingreso', 'i.fecha_hora', 'p.nombre', 'i.tipo_comprobante', 'i.serie_comprobante', 'i.num_comprobante', 'i.ganancia', 'i.estado')
     		->where('i.idingreso', '=', $id)
     		->first();
 
-    	$detalles =DB::table('detalle_ingreso as d')
+    	$detalles=DB::table('detalle_ingreso as d')
     	->join('articulo as a', 'd.idarticulo', '=', 'a.idarticulo')
     	->select('a.nombre as articulo', 'd.cantidad', 'd.precio_compra', 'd.precio_venta')
     	->where('d.idingreso', '=', $id)
-    	->get();
+        ->get();
     	return view("compras.ingreso.show", ["ingreso"=>$ingreso,"detalles"=>$detalles]);
     }
 
