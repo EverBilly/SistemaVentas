@@ -51,10 +51,10 @@
 			<div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
 				<div class="form-group">
 					<label for="num_comprobante">Numero de Comprobante</label>
-					<input type="text" name="num_comprobante" id="num_comprobante" required value="{{old('num_comprobante')}}" class="form-control " required placeholder="Numero de Comprobante">
+					<input type="text" name="num_comprobante" id="num_comprobante" required value="{{old('num_comprobante')}}" class="form-control "  placeholder="Numero de Comprobante">
 				</div>
 			</div>
-			</div>
+		</div>
 			
 			<div class="row">
 				<div class="panel panel-primary">

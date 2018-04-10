@@ -19,7 +19,7 @@ class VentaController extends Controller
 {
     public function __construct()
     {
-
+        $this->middleware('auth');
     }
 
     public function index(Request $request)
@@ -33,7 +33,7 @@ class VentaController extends Controller
     		->select('v.idventa', 'v.fecha_hora', 'p.nombre', 'v.tipo_comprobante', 'v.serie_comprobante','v.num_comprobante', 'v.impuesto', 'v.estado', 'v.total_venta')
     		->where('v.num_comprobante','LIKE','%'.$query.'%')
     		->orderBy('v.idventa', 'desc')
-    		->groupBy('v.idventa', 'v.fecha_hora', 'p.nombre', 'v.tipo_comprobante', 'v.serie_comprobante', 'v.num_comprobante', 'v.impuesto', 'v.estado')
+    		->groupBy('v.idventa', 'v.fecha_hora', 'p.nombre', 'v.tipo_comprobante', 'v.serie_comprobante', 'v.num_comprobante', 'v.impuesto', 'v.estado', 'v.total_venta')
     		->paginate(7);
     		return view('ventas.venta.index', ["ventas"=>$ventas, "searchText"=>$query]);
     	}

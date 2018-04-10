@@ -4,6 +4,7 @@ namespace sisVentas\Http\Controllers\Auth;
 
 use sisVentas\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -24,8 +25,9 @@ class LoginController extends Controller
      * Where to redirect users after login.
      *
      * @var string
+     poner home en redirectto
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/ventas/venta';
 
     /**
      * Create a new controller instance.
@@ -36,4 +38,11 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    
+    public function username()
+    {
+        return 'login';
+    }
+
 }

@@ -4,7 +4,7 @@ namespace sisVentas\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VentaFormRequest extends FormRequest
+class UsuarioFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,9 @@ class VentaFormRequest extends FormRequest
     public function rules()
     {
         return [
-        'idcliente' =>'required',
-        'tipo_comprobante' => 'required|max:20',
-        'serie_comprobante' => 'max:10',
-        'num_comprobante' => 'required|max:10',
-        'idarticulo' => 'required',
-        'cantidad' => 'required',    
-        'precio_venta' => 'required',
-        'descuento' => 'max:3',
-        'total_venta' => 'required'
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:6|confirmed',
         ];
     }
 }

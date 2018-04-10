@@ -51,15 +51,15 @@
 			<div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
 				<div class="form-group">
 					<label for="num_comprobante">Numero de Comprobante</label>
-					<input type="text" name="num_comprobante" id="num_comprobante" required value="{{old('num_comprobante')}}" class="form-control " required placeholder="Numero de Comprobante">
+					<input type="text" name="num_comprobante" id="num_comprobante" required value="{{old('num_comprobante')}}" class="form-control " placeholder="Numero de Comprobante">
 				</div>
 			</div>
-			</div>
+		</div>
 			
 			<div class="row">
 				<div class="panel panel-primary">
 					<div class="panel-body">
-						<div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
+						<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
 							<div class="form-group">
 								<label>Articulo</label>
 								<select name="pidarticulo" id="pidarticulo" class="form-control selectpicker" data-live-search="true">
@@ -170,18 +170,19 @@
 		datosArticulo=document.getElementById('pidarticulo').value.split('_');
 
 		idarticulo=datosArticulo[0];
-		articulo=$("#pidarticulo option:selected").text();
+		articulo=$("#pidarticulo  option:selected").text();
 		cantidad=$("#pcantidad").val();
+
 		descuento=$("#pdescuento").val();
 		precio_venta=$("#pprecio_venta").val();
 		stock=$("#pstock").val();
 
 		if (idarticulo != "" && cantidad != "" && cantidad > 0 && descuento != "" && precio_venta != "") 
 		{
-			if(stock >= cantidad)
+			if(cantidad <= stock)
 			{
 
-			subtotal[cont] = (cantidad*pprecio_venta);
+			subtotal[cont] = (cantidad*precio_venta);
 			total = total + subtotal[cont];
 
 			var fila ='<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-warning" onclick="eliminar('+cont+');">X</button></td><td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td><td><input type="number" name="cantidad[]" value="'+cantidad+'"></td> <td><input type="number" name="precio_venta[]" value="'+precio_venta+'"></td> <td><input type="number" name="descuento[]" value="'+descuento+'"></td> <td>'+subtotal[cont]+'</td></tr>';

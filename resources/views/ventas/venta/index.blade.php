@@ -1,7 +1,8 @@
 @extends ('layouts.admin')
 @section ('contenido')
 	<div class="row">
-		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12"><h3>Listado de Ventas <button class="btn btn-default"><a href="venta/create"> Nuevo</a></h3></button>
+		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+		<h3>Listado de Ventas <a href="venta/create"><button class="btn btn-default"> Nuevo</a></h3></button>
 			@include('ventas.venta.search')
 		</div> 
 	</div>
